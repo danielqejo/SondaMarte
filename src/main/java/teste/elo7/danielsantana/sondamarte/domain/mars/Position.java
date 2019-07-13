@@ -1,11 +1,11 @@
-package teste.elo7.danielsantana.sondamarte.domain.probe;
+package teste.elo7.danielsantana.sondamarte.domain.mars;
 
 import java.util.Objects;
 
 public class Position {
 
-    private int xAxis;
-    private int yAxis;
+    private final int xAxis;
+    private final int yAxis;
 
     public Position(int xAxis, int yAxis) {
         this.xAxis = xAxis;
@@ -20,21 +20,6 @@ public class Position {
         return yAxis;
     }
 
-    public void sumToXAxis(int quantity) {
-        xAxis += quantity;
-    }
-
-    public void sumToYAxis(int quantity) {
-        yAxis += quantity;
-    }
-
-    public void subtractFromXAxis(int quantity) {
-        xAxis -= quantity;
-    }
-
-    public void subtractFromYAxis(int quantity) {
-        yAxis -= quantity;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -50,4 +35,8 @@ public class Position {
         return Objects.hash(xAxis, yAxis);
     }
 
+    @Override
+    public String toString() {
+        return "(" + xAxis+ "," + yAxis + ")";
+    }
 }
