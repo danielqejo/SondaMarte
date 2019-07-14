@@ -1,6 +1,8 @@
 package teste.elo7.danielsantana.sondamarte.domain.probe;
 
 import org.junit.Test;
+import teste.elo7.danielsantana.sondamarte.domain.probe.command.LeftRotateCommand;
+import teste.elo7.danielsantana.sondamarte.domain.probe.command.RightRotateCommand;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,26 +13,28 @@ public class SpaceProbeTest {
     @Test
     public void shouldProperlyPointWhenLeftRotationOccurs() {
         SpaceProbe spaceProbe = new SpaceProbe(PROBE_NAME,  WindRose.E);
-        spaceProbe.rotateLeft();
+        LeftRotateCommand leftRotateCommand = new LeftRotateCommand();
+        spaceProbe.rotate(leftRotateCommand);
         assertEquals(WindRose.N, spaceProbe.getDirection());
-        spaceProbe.rotateLeft();
+        spaceProbe.rotate(leftRotateCommand);
         assertEquals(WindRose.W, spaceProbe.getDirection());
-        spaceProbe.rotateLeft();
+        spaceProbe.rotate(leftRotateCommand);
         assertEquals(WindRose.S, spaceProbe.getDirection());
-        spaceProbe.rotateLeft();
+        spaceProbe.rotate(leftRotateCommand);
         assertEquals(WindRose.E, spaceProbe.getDirection());
     }
 
     @Test
     public void shouldProperlyPointWhenRightRotationOccurs() {
         SpaceProbe spaceProbe = new SpaceProbe(PROBE_NAME, WindRose.E);
-        spaceProbe.rotateRight();
+        RightRotateCommand rightRotateCommand = new RightRotateCommand();
+        spaceProbe.rotate(rightRotateCommand);
         assertEquals(WindRose.S, spaceProbe.getDirection());
-        spaceProbe.rotateRight();
+        spaceProbe.rotate(rightRotateCommand);
         assertEquals(WindRose.W, spaceProbe.getDirection());
-        spaceProbe.rotateRight();
+        spaceProbe.rotate(rightRotateCommand);
         assertEquals(WindRose.N, spaceProbe.getDirection());
-        spaceProbe.rotateRight();
+        spaceProbe.rotate(rightRotateCommand);
         assertEquals(WindRose.E, spaceProbe.getDirection());
     }
 

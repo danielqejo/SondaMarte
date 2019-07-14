@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Position {
 
-    private final int xAxis;
-    private final int yAxis;
+    private final Integer xAxis;
+    private final Integer yAxis;
 
-    public Position(int xAxis, int yAxis) {
+    public Position(Integer xAxis, Integer yAxis) {
         this.xAxis = xAxis;
         this.yAxis = yAxis;
     }

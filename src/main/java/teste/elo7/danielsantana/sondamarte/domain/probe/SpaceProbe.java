@@ -1,5 +1,6 @@
 package teste.elo7.danielsantana.sondamarte.domain.probe;
 
+import teste.elo7.danielsantana.sondamarte.domain.probe.command.RotateCommand;
 import teste.elo7.danielsantana.sondamarte.utils.ApplicationConfigurations;
 
 import java.util.Objects;
@@ -26,12 +27,8 @@ public class SpaceProbe {
         return name;
     }
 
-    public void rotateLeft() {
-        this.direction = this.direction.getNinetyDegreesCounterClockWiseSibling();
-    }
-
-    public void rotateRight() {
-        this.direction = this.direction.getNinetyDegreesClockWiseSibling();
+    public void rotate(RotateCommand rotateCommand) {
+        this.direction = rotateCommand.rotate(this.direction);
     }
 
     @Override

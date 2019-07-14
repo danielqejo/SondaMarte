@@ -5,6 +5,7 @@ import teste.elo7.danielsantana.sondamarte.domain.mars.exception.CollisionDetect
 import teste.elo7.danielsantana.sondamarte.domain.mars.exception.SpaceProbeNotFoundException;
 import teste.elo7.danielsantana.sondamarte.domain.probe.SpaceProbe;
 import teste.elo7.danielsantana.sondamarte.domain.probe.WindRose;
+import teste.elo7.danielsantana.sondamarte.domain.probe.command.RotateCommandFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,19 +25,21 @@ public class Mars {
         return Collections.unmodifiableMap(mapProbes);
     }
 
-    public void add(SpaceProbe probe, Position position) {
+    public void add(SpaceProbe probe, Position position) throws BoundaryViolationException, CollisionDetectedException {
         checkPossibilityFor(position);
         mapProbes.put(probe, position);
     }
 
-    public void move(String spaceProbeName) throws SpaceProbeNotFoundException {
+    public void rotate(String probe, String commandInitials) {
+        SpaceProbe wantedSpaceProbe = new SpaceProbe(probe);
+        SpaceProbe spaceProbe = find(wantedSpaceProbe, "Probe not yet registered to Mars");
+        spaceProbe.rotate(RotateCommandFactory.getRotateCommand(commandInitials));
+    }
+
+    public void move(String spaceProbeName) throws SpaceProbeNotFoundException, BoundaryViolationException, CollisionDetectedException {
         SpaceProbe wantedProbe = new SpaceProbe(spaceProbeName);
 
-        SpaceProbe probe = mapProbes.keySet()
-                .stream()
-                .filter(wantedProbe::equals)
-                .findFirst()
-                .orElseThrow(() -> new SpaceProbeNotFoundException("Add a SpaceProbe to Mars before moving it."));
+        SpaceProbe probe = find(wantedProbe,"Add a SpaceProbe to Mars before moving it.");
 
         Position position = mapProbes.get(probe);
         Position newPosition = createNewPositionWith(position, probe.getDirection());
@@ -44,6 +47,14 @@ public class Mars {
         checkPossibilityFor(newPosition);
 
         mapProbes.put(probe, newPosition);
+    }
+
+    private SpaceProbe find(SpaceProbe spaceProbe, String notFoundMessage) {
+        return mapProbes.keySet()
+                .stream()
+                .filter(spaceProbe::equals)
+                .findFirst()
+                .orElseThrow(() -> new SpaceProbeNotFoundException(notFoundMessage));
     }
 
     private void checkPossibilityFor(Position newPosition) {
@@ -72,12 +83,13 @@ public class Mars {
             int x = position.getxAxis() + 1;
             return new Position(x, position.getyAxis());
         } else if(WindRose.S.equals(direction)) {
-            int y = position.getxAxis() - 1;
+            int y = position.getyAxis() - 1;
             return new Position(position.getxAxis(), y);
-        } else {
+        } else if(WindRose.W.equals(direction)){
             int x = position.getxAxis() - 1;
             return new Position(x, position.getyAxis());
         }
+        throw new IllegalArgumentException("Invalid Windrose: " + direction);
     }
 
 }
