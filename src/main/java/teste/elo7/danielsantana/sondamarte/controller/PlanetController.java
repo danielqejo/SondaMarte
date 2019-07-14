@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import teste.elo7.danielsantana.sondamarte.domain.probe.command.RotateCommand;
 import teste.elo7.danielsantana.sondamarte.controller.dto.PlanetProbesDTO;
 import teste.elo7.danielsantana.sondamarte.controller.dto.ProbeRegisterDTO;
 import teste.elo7.danielsantana.sondamarte.domain.mars.Mars;

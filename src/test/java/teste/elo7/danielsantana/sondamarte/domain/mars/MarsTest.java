@@ -19,6 +19,7 @@ public class MarsTest {
 
     private final String COLLISION_DID_NOT_HAPPENED = "Collision didn't happened.";
     private final String BOUNDARY_VIOLATION_MESSAGE = "Should've thrown BoundaryViolationException";
+    private final String L = "L";
 
     private Mars mars;
 
@@ -44,11 +45,42 @@ public class MarsTest {
         Position position = new Position(3, 2);
         mars.add(expectedProbe, position);
 
-        mars.move(expectedProbe.getName());
+        String probeName = expectedProbe.getName();
+        mars.move(probeName);
 
         Position expectedPosition = new Position(3, 3);
         Position actualPosition = mars.getMapProbes().get(expectedProbe);
         assertEquals(expectedPosition, actualPosition);
+
+        mars.rotate(probeName, L);
+        expectedPosition = new Position(2,3);
+        mars.move(probeName);
+        assertEquals(expectedPosition, mars.getMapProbes().get(expectedProbe));
+
+        mars.rotate(probeName, L);
+        expectedPosition = new Position(2,2);
+        mars.move(probeName);
+        assertEquals(expectedPosition, mars.getMapProbes().get(expectedProbe));
+
+        mars.rotate(probeName, L);
+        expectedPosition = new Position(3,2);
+        mars.move(probeName);
+        assertEquals(expectedPosition, mars.getMapProbes().get(expectedProbe));
+    }
+
+    @Test
+    public void shouldRotateProbe(){
+        SpaceProbe expectedProbe = createTest1Probe();
+        Position position = new Position(3, 2);
+        mars.add(expectedProbe, position);
+
+        mars.rotate(expectedProbe.getName(), L);
+        SpaceProbe spaceProbe = mars.getMapProbes().keySet()
+                .stream()
+                .filter(prb -> expectedProbe.getName().equals(prb.getName()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("this shouldn't happen"));
+        assertEquals(WindRose.W, spaceProbe.getDirection());
     }
 
     @Test
