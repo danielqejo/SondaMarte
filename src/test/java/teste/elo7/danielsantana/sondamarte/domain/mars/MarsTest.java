@@ -4,9 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import teste.elo7.danielsantana.sondamarte.domain.mars.exception.BoundaryViolationException;
 import teste.elo7.danielsantana.sondamarte.domain.mars.exception.CollisionDetectedException;
+import teste.elo7.danielsantana.sondamarte.domain.mars.exception.SpaceProbeAlreadyRegisteredException;
 import teste.elo7.danielsantana.sondamarte.domain.mars.exception.SpaceProbeNotFoundException;
 import teste.elo7.danielsantana.sondamarte.domain.probe.SpaceProbe;
 import teste.elo7.danielsantana.sondamarte.domain.probe.WindRose;
+import teste.elo7.danielsantana.sondamarte.domain.probe.command.RotateCommandType;
 
 import java.util.Map;
 
@@ -19,7 +21,6 @@ public class MarsTest {
 
     private final String COLLISION_DID_NOT_HAPPENED = "Collision didn't happened.";
     private final String BOUNDARY_VIOLATION_MESSAGE = "Should've thrown BoundaryViolationException";
-    private final String L = "L";
 
     private Mars mars;
 
@@ -52,17 +53,17 @@ public class MarsTest {
         Position actualPosition = mars.getMapProbes().get(expectedProbe);
         assertEquals(expectedPosition, actualPosition);
 
-        mars.rotate(probeName, L);
+        mars.rotate(probeName, RotateCommandType.L);
         expectedPosition = new Position(2,3);
         mars.move(probeName);
         assertEquals(expectedPosition, mars.getMapProbes().get(expectedProbe));
 
-        mars.rotate(probeName, L);
+        mars.rotate(probeName, RotateCommandType.L);
         expectedPosition = new Position(2,2);
         mars.move(probeName);
         assertEquals(expectedPosition, mars.getMapProbes().get(expectedProbe));
 
-        mars.rotate(probeName, L);
+        mars.rotate(probeName, RotateCommandType.L);
         expectedPosition = new Position(3,2);
         mars.move(probeName);
         assertEquals(expectedPosition, mars.getMapProbes().get(expectedProbe));
@@ -74,7 +75,7 @@ public class MarsTest {
         Position position = new Position(3, 2);
         mars.add(expectedProbe, position);
 
-        mars.rotate(expectedProbe.getName(), L);
+        mars.rotate(expectedProbe.getName(), RotateCommandType.L);
         SpaceProbe spaceProbe = mars.getMapProbes().keySet()
                 .stream()
                 .filter(prb -> expectedProbe.getName().equals(prb.getName()))
@@ -157,6 +158,19 @@ public class MarsTest {
             mars.move(TEST_1_PROBE_NAME);
             fail("Should've thrown SpaceProbeNotFoundException");
         } catch (SpaceProbeNotFoundException e) {
+            assertNotNull(e.getMessage());
+        }
+    }
+
+    @Test
+    public void shouldThrowProbeAlreadyRegisteredExceptionWhenSameProbeIsBeingRegistered(){
+        SpaceProbe test1Probe = createTest1Probe();
+        Position position = new Position(1, 2);
+        mars.add(test1Probe, position);
+        try{
+            mars.add(test1Probe, position);
+            fail("Should've thrown SpaceProbeAlreadyRegistered");
+        } catch (SpaceProbeAlreadyRegisteredException e) {
             assertNotNull(e.getMessage());
         }
     }

@@ -10,11 +10,11 @@ import teste.elo7.danielsantana.sondamarte.controller.dto.ProbeRegisterDTO;
 import teste.elo7.danielsantana.sondamarte.domain.mars.Mars;
 import teste.elo7.danielsantana.sondamarte.domain.mars.Position;
 import teste.elo7.danielsantana.sondamarte.domain.probe.SpaceProbe;
+import teste.elo7.danielsantana.sondamarte.domain.probe.command.RotateCommandType;
 import teste.elo7.danielsantana.sondamarte.utils.ApplicationConfigurations;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.net.URI;
 
 @RestController
@@ -85,17 +85,17 @@ public class PlanetController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("{planetName}/probe/{probeName}/rotate/{rotateCommand}")
+    @PatchMapping("{planetName}/probe/{probeName}/rotate/{rotateCommandType}")
     public ResponseEntity moveProbe(@PathVariable @NotNull String planetName,
                                     @PathVariable @NotNull @NotEmpty(message="Probe Name cannot be empty") String probeName,
-                                    @PathVariable @NotNull @Size(min=1, max=1, message = "RotateCommand should be L or R (Left, Right)") String rotateCommand) {
+                                    @PathVariable @NotNull RotateCommandType rotateCommandType) {
         if(isNotMars(planetName))
             return badRequestResponseWith("Currently you can only rotate a probe at mars.");
 
         if(isMarsNull())
             return conflictResponseWith("Register planet mars before rotating a probe");
 
-        mars.rotate(probeName, rotateCommand);
+        mars.rotate(probeName, rotateCommandType);
 
         return ResponseEntity.ok().build();
     }

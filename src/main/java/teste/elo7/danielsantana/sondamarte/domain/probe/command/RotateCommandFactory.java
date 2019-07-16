@@ -1,18 +1,15 @@
 package teste.elo7.danielsantana.sondamarte.domain.probe.command;
 
-import teste.elo7.danielsantana.sondamarte.utils.ApplicationConfigurations;
-
 public class RotateCommandFactory {
 
-    private static final String L = "L";
-    private static final String R = "R";
-
-    public static RotateCommand getRotateCommand(String initials) {
-        String upperCaseInitial = initials.toUpperCase(ApplicationConfigurations.LOCALE);
-        if(L.equals(upperCaseInitial))
+    public RotateCommand getRotateCommand(RotateCommandType rotateCommandType) {
+        if(RotateCommandType.L.equals(rotateCommandType)) {
             return new LeftRotateCommand();
-        if(R.equals(upperCaseInitial))
+        }
+        if(RotateCommandType.R.equals(rotateCommandType)){
             return new RightRotateCommand();
-        throw new IllegalArgumentException(initials + " command does not exist");
+        }
+        throw new IllegalArgumentException("Invalid RotateCommandType or not implemented yet: " + rotateCommandType);
     }
+
 }
