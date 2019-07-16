@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>teste.elo7.danielsantana</groupId>
 	<artifactId>SondaMarte</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>SondaMarte</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Projeto que simula uma sonda em marte</description>
 
 	<properties>
 		<java.version>1.8</java.version>
