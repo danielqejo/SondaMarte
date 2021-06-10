@@ -1,7 +1,7 @@
-#Sonda em Marte
+# Sonda em Marte
 Projeto para movimentação de uma sonda em marte.
 
-##Considerações e Suposições
+## Considerações e Suposições
 Primeiro modelo na qual tentei introduzir foi o de que uma terceira classe fosse responsável por "orquestrar" as
 sondas em marte, dizendo quando elas deveriam se movimentar.
 
@@ -23,13 +23,13 @@ Marte deve ser obrigatóriamente criado antes das Sondas.
 
 Não foi considerado concorrência ao alterar o estado de marte.
 
-##Instalando e Executando o Projeto
+## Instalando e Executando o Projeto
 
-###Pré-requisitos
+### Pré-requisitos
 * OpenJDK/OracleJDK 1.8+
 * Apache Maven 3.6+
 
-###Compilando e Executando
+### Compilando e Executando
 Para compilar o projeto, basta executar o seguinte comando na raiz:  
 `mvn clean install` 
 
